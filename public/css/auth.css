@@ -107,3 +107,6 @@ button.clear-users {
         margin: 2px 10px 2px 0;
         display: inline-block;
 }
+ul.white{
+    color: white;
+}

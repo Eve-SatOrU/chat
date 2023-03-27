@@ -5,7 +5,15 @@ exports.getRegister = (req, res, next) => {
   });
 };
 exports.postRegister =(req,res,next) =>{
-  //using list to put all username into this register
+  const user = {
+    name: req.body.userName,
+    userPassword: req.body.userPassword,
+  }
+  if (!req.body.userName || !req.body.userPassword) {
+    res.status(400).send('problem');
+    return;
+  }
+  console.log(req.body); // Log the request body to the console
 };
 
 exports.getlistview = (req, res, next) => {
@@ -14,13 +22,13 @@ exports.getlistview = (req, res, next) => {
     pageTitle: 'listview'
   });
 };
-users=[];
+ users =[];
 exports.postlistview = (req, res, next) => {
-  const { userName,userPassword } = req.body;
+  const { userName,userPassword } =req.body;
     // Add the new user to the users array
-    users.push({ userName, userPassword });
+    users.push({userName, userPassword });
     // Render the list view with all users
-    res.render('listview', { users });  
+    res.render('listview', {users});  
 };
 
 exports.getIndex = (req, res, next) => {
