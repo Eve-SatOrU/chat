@@ -1,0 +1,33 @@
+meta(charset="utf-8")
+meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
+title list view
+link(href="/css/particles.css", rel="stylesheet")
+link(href="/css/auth.css", rel="stylesheet")
+main.box
+  h2 listviews    
+    ul
+      each user in users
+        li
+          span Name:
+          | #{user.userName}
+        li
+          span Password:
+          | #{user.userPassword}
+    button.clear-users(type="button" onclick="clearUsers()" style="float: left ;") Clear Users
+
+footer.
+
+script.
+  function clearUsers() {
+    if (confirm('Are you sure you want to clear all users?')) {
+      // Send a POST request to the /clear route
+      fetch('/clear', { method: 'POST' })
+        .then(() => {
+          // Reload the page to show the updated user list
+          location.reload();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }
