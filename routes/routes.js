@@ -1,29 +1,11 @@
-// const express = require('express');
-// const router = express.Router();
-
-// // Route for registering a new user
-// router.get('/register', (req, res) => {
-//   // TODO: Handle user registration
-//  });
- 
-// router.post('/register', (req, res) => {
-//  // TODO: Handle user registration
-// });
-
-// // Route for displaying the list of users
-// router.get('/users', (req, res) => {
-//   // TODO: Retrieve list of users and render view
-// });
-
-// module.exports = router;
 const express = require('express');
 const router = express.Router();
-
-// Route for registering a new user
-router.post('/register', (req, res) => {
-  const { name, email, password } = req.body;
-  // TODO: Validate user input and save new user to database
-  res.redirect('/register-success');
-});
-
+const userController = require('../controllers/userController');
+router.get('/register', userController.getRegister);
+router.post('/register' , userController.postRegister);
+router.get('/listview',userController.getlistview);
+router.post('/listview',userController.postlistview);
+router.get('/',userController.getIndex);
+router.get('/login',userController.getLogin);
+router.post('/clear',userController.postclear);
 module.exports = router;
