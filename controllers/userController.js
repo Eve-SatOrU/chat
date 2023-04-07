@@ -1,12 +1,10 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
-exports.getIndex = (req, res, next) => {
-  res.render('index', {
-    path: '/',
-    pageTitle: 'index'
-  });
-};
+exports.getIndex = async(req, res, next) => {
+    const user = req.session.user;
+    res.render('index', { user });
+  }
 
 // exports.postclear =(req , res, next) =>{
 //   // Clear the users array
@@ -101,17 +99,38 @@ exports.postLogin= (async (req, res) => {
   req.session.user = user;
   return res.redirect('/');
 });
-  const requireLogin = (req, res, next) => {
-    if (!req.session.user) {
-      return res.redirect('/login');
+  // const requireLogin = (req, res, next) => {
+  //   if (!req.session.user) {
+  //     return res.redirect('/login');
+  //   }
+  //   next();
+  // };
+  exports.getprofile = async (req, res) => {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (!user) {
+      return res.status(404).send('User not found');
     }
-    next();
+    res.render('profile', { user }); // passing the user object to the template
   };
-
-exports.getLogout=(req, res) => {
+  exports.getLogout=async(req, res) => {
   //show that user in the session
   console.log("User in session:", req.session.user);
     req.session.destroy();
     res.redirect('/login');
 };
-  
+// exports.getchat=(req, res) => {
+//   res.render('chat', { user: req.session.user });
+// };
+exports.getchat =(req, res) => {
+  const userId = req.session.user.id;
+  const chatWithId = req.params.id;
+  User.findByPk(chatWithId).then(user => {
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.render('chat', { user });
+  }).catch(err => {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  });
+};

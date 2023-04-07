@@ -9,6 +9,8 @@ router.get('/',userController.getIndex);
 router.get('/login',userController.getLogin);
 router.post('/login',userController.postLogin);
 router.get('/logout',userController.getLogout);
+router.get('/chat/:id',userController.getchat);
+router.get('/profile/:id',userController.getprofile);
 // router.post('/clear',userController.postclear);
 
 module.exports = router;

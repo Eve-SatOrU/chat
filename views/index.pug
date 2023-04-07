@@ -6,9 +6,14 @@ link(href="/css/auth.css", rel="stylesheet")
 #tsparticles
 main.box
   h2 Home
-    form(action='/register' method='post')
-        a.button(href="/listview", style="float: left;") view list
-        a.button(href="/register", style="float: left;") register
-        a.button(href="/login", style="float: left;") login
+  if user
+    a.button(href=`/profile/${user.id}`) Profile
+    a.button(href="/logout", style="float: right;") logout
+    a.button(href=`/chat/${user.id}`) chat
+  else 
+    a.button(href="/listview", style="float: left;") view list
+    a.button(href="/register", style="float: left;") register
+    a.button(href="/login", style="float: left;") login
+
     
 footer.

@@ -3,11 +3,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize =require('./util/database');
 const session = require('express-session');
-const socketio = require('socket.io');
-const http = require('http');
 const app = express();
 const User = require('./models/user');
 app.use(bodyParser.urlencoded({ extended: true }));
+//socket
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 
 
@@ -24,6 +25,35 @@ app.use(session({
 
 const routes = require('./routes/routes');
 app.use('/', routes);
+//socket
+// io.on('connection', (socket) => {
+//   console.log('A user has connected!');
+
+//   socket.on('message', (data) => {
+//     console.log(`Received message from ${data.username}: ${data.message}`);
+
+//     // Broadcast the message to all clients except the sender
+//     socket.broadcast.emit('message', data);
+//   });
+
+//   socket.on('disconnect', () => {
+//     console.log('A user has disconnected!');
+//   });
+// });
+// initialize an empty array to store messages
+let messages = [];
+
+// listen for new messages from clients
+io.on('connection', (socket) => {
+  socket.on('message', (message) => {
+    // add the new message to the array
+    messages.push(message);
+    // emit the message to all connected clients
+    io.emit('message', message);
+  });
+});
+
+
 
 const userController = require('./controllers/userController');
 const errorController=require('./controllers/error.js');
