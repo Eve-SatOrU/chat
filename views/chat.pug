@@ -1,51 +1,43 @@
 doctype html
 html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        script(src="/socket.io/socket.io.js")
-        script(src="/js/chat.js")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Chat with #{user.username}
 
-        title Document
-    body 
-        h1 Chat with #{user.userName}
-        #chat-box
-        form
-            input#message-input(type="text")
-            button#send-button(type="submit") Send
-        #messages
-          if (messages && messages.length) 
-            each message in messages
-              p= message.userName + ': ' + message.text
+  body
+    h1 Chat with #{user.username}
 
+    #messages
+      // message box for displaying chat messages
 
-script(src="/socket.io/socket.io.js")
-script.
-  var socket = io();
+    form(onsubmit="return false;")
+      input#message-input(type="text")
+      button#send-button Send
 
-  var messageForm = document.getElementById('message-form');
-  var messageInput = document.getElementById('message-input');
-  var messagesDiv = document.getElementById('messages');
+  script(src="/socket.io/socket.io.js")
+  script.
+    const socket = io();
 
-  messageForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    socket.emit('chat message', messageInput.value);
-    messageInput.value = '';
-  });
+    // listen for incoming chat messages
+    socket.on('message', (msg) => {
+      const messageElem = document.createElement('li');
+      messageElem.textContent = msg;
 
-  socket.on('chat message', function(msg) {
-    var message = document.createElement('div');
-    message.innerText = msg;
-    messagesDiv.appendChild(message);
-  });
-    // listen for new messages from the server
-  socket.on('message', (message) => {
-    // add the new message to the messages array
-    messages.push(message);
-    // update the chatbox with the new message
-    const chatbox = document.getElementById('messages');
-    const p = document.createElement('p');
-    p.textContent = `${message.username}: ${message.text}`;
-    chatbox.appendChild(p);
-  });
+      const messagesElem = document.querySelector('#messages');
+      messagesElem.appendChild(messageElem);
+    });
+
+    // send chat messages
+    const messageInput = document.querySelector('#message-input');
+    const sendButton = document.querySelector('#send-button');
+
+    sendButton.addEventListener('click', (event) => {
+      const message = messageInput.value.trim();
+
+      if (message) {
+        socket.emit('message', message);
+        messageInput.value = '';
+      }
+    });

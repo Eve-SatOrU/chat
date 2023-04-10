@@ -1,19 +1,145 @@
-meta(charset="utf-8")
-meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
-title Index
-link(href="/css/particles.css", rel="stylesheet")
-link(href="/css/auth.css", rel="stylesheet")
-#tsparticles
-main.box
-  h2 Home
-  if user
-    a.button(href=`/profile/${user.id}`) Profile
-    a.button(href="/logout", style="float: right;") logout
-    a.button(href=`/chat/${user.id}`) chat
-  else 
-    a.button(href="/listview", style="float: left;") view list
-    a.button(href="/register", style="float: left;") register
-    a.button(href="/login", style="float: left;") login
+//- meta(charset="utf-8")
+//- meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
+//- title Index
+//- link(href="/css/particles.css", rel="stylesheet")
+//- link(href="/css/auth.css", rel="stylesheet")
+//- #tsparticles
+//- main.box
+//-   h2 Home
+//-   if user
+//-     a.button(href=`/profile/${user.id}`) Profile
+//-     a.button(href="/logout", style="float: right;") logout
+//-     a.button(href=`/chat/${user.id}`) chat
+//-   else 
+//-     a.button(href="/listview", style="float: left;") view list
+//-     a.button(href="/register", style="float: left;") register
+//-     a.button(href="/login", style="float: left;") login
 
     
-footer.
+//- footer.
+meta(charset="UTF-8")
+meta(name="viewport", content="width=device-width,initial-scale=1")
+title home
+link(rel="stylesheet", href="css/index.css")
+link(rel="preconnect", href="https://fonts.googleapis.com")
+link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+link(href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap", rel="stylesheet")
+link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css")
+.header
+  .container
+    .navbar
+      .logo
+        a(href="/")
+          img(src="images/logo.png", width="123px")
+      nav
+        ul#MenuItems
+          li.main-header__item
+            a(href="/", class=(path === '/' ? 'active' : '')) Home
+          li.main-header__item
+            a(href="/about", class=(path === '/about' ? 'active' : '')) About
+          if user
+            li.main-header__item
+              a( href="/profile",class=(path === '/profile' ? 'active' : '')) Profile
+            li.main-header__item
+              a(href=`/chat/${user.id}`) chat
+            li.main-header__item
+              a(href="/logout", class=(path === '/logout' ? 'active' : '')) Logout
+
+          else
+            li.main-header__item
+              a(href="/register", class=(path === '/register' ? 'active' : '')) Register
+            li.main-header__item
+              a(href="/login", class=(path === '/login' ? 'active' : '')) Login
+
+      a(href="/donate")
+        img(src="images/cart.png", width="30px", height="30px")
+    .row
+      .col-2
+        h1
+          | We stay We fix
+          br
+          | We communicate!
+        p
+          | Connect with people from around the world
+
+          br
+          | and have meaningful conversations in real time.
+        a.btn(href="/register") register now →
+      .col-2
+        img(src="images/people.svg")
+// ----------- featured categories-----------
+.categories
+  .small-container
+    .row
+      .col-3
+        img(src="images/chat3.svg")
+        p Enjoy a fun and engaging platform
+// ------------offer----------
+.offer
+  .small-container
+    .row
+      .col-2
+        img.offer_img(src="images/app.svg")
+      .col-2
+        h1 download our app
+        small Discover new opportunities, discover new perspectives, and expand your horizons through conversations with people from all walks of life.
+        a.btn(href="/") download Now →
+// -----------testimonial-----------
+.testimonial
+  .small-container
+    .row
+      .col-3
+        p This website has helped me improve my communication skills and build my confidence in social situations. I love being able to chat with people in a relaxed and supportive environment
+
+        img(src="/images/user-1.png")
+        h3 chams Nadine
+      .col-3
+        p I've learned so much from the experts on this website. It's great to be able to ask questions and get insightful answers from people who really know their stuff
+
+        img(src="images/user-2.png")
+        h3 Mike Smith
+      .col-3
+        p I've made some really great friends on this website. It's amazing how easy it is to connect with people who share my interests and passions
+
+        img(src="images/user-3.png")
+        h3 Mabel joe
+// ----------------brands--------------
+.brands
+  .small-container
+    .row
+      .col-5
+        img(src="images/logo-godrej.png")
+      .col-5
+        img(src="images/logo-oppo.png")
+      .col-5
+        img(src="images/logo-coca-cola.png")
+      .col-5
+        img(src="images/logo-paypal.png")
+      .col-5
+        img(src="images/logo-philips.png")
+// ----------------footer----------
+.footer
+  .container
+    .row
+      .footer-col-1
+        h3 Download Our App
+        p Download App for Android and ios mobile phone.
+        .app-logo
+          img(src="images/play-store.png")
+          img(src="images/app-store.png")
+      .footer-col-2
+        p Share your experiences and learn from others in a safe and welcoming environment.
+      .footer-col-3
+        h3 Useful Links
+        ul
+          li Coupons
+          li Blog Post
+          li Return Policy
+          li Join Affiliate
+      .footer-col-4
+        h3 Follow Us
+        ul
+          li Facebook
+          li Twitter
+          li Instagram
+          li Youtube

@@ -1,16 +1,18 @@
 // using les sockets with login 
 const express = require('express');
+const http = require('http');
+const socketio = require('socket.io');
 const bodyParser = require('body-parser');
-const sequelize =require('./util/database');
+const sequelize = require('./util/database');
 const session = require('express-session');
-const app = express();
 const User = require('./models/user');
+const app = express();
+
 app.use(bodyParser.urlencoded({ extended: true }));
+
 //socket
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
-
-
+const server = http.createServer(app);
+const io = socketio(server);
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
@@ -25,46 +27,24 @@ app.use(session({
 
 const routes = require('./routes/routes');
 app.use('/', routes);
-//socket
-// io.on('connection', (socket) => {
-//   console.log('A user has connected!');
 
-//   socket.on('message', (data) => {
-//     console.log(`Received message from ${data.username}: ${data.message}`);
-
-//     // Broadcast the message to all clients except the sender
-//     socket.broadcast.emit('message', data);
-//   });
-
-//   socket.on('disconnect', () => {
-//     console.log('A user has disconnected!');
-//   });
-// });
-// initialize an empty array to store messages
-let messages = [];
-
-// listen for new messages from clients
+const userController = require('./controllers/userController');
+const errorController = require('./controllers/error.js');
+app.use(errorController.get404);
+ // app.use(express.json());
 io.on('connection', (socket) => {
-  socket.on('message', (message) => {
-    // add the new message to the array
-    messages.push(message);
-    // emit the message to all connected clients
-    io.emit('message', message);
+  console.log('a user connected');
+
+  socket.on('message', (msg) => {
+    console.log('message: ' + msg);
+
+    socket.broadcast.emit('message', msg);
   });
 });
 
-
-
-const userController = require('./controllers/userController');
-const errorController=require('./controllers/error.js');
-app.use(errorController.get404);
-// app.use(express.json());
-sequelize.
-sync().
-// sync({ force: true }).
-  then(() => {
-    app.listen(3000, () => {
-      console.log('Server started on port 3000');
-    });
-  })
-  .catch(error => console.log(error));
+sequelize.sync().then(() => {
+ // sync({ force: true }).
+  server.listen(3000, () => {
+    console.log('Server started on port 3000');
+  });
+}).catch(error => console.log(error));
