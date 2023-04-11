@@ -70,3 +70,15 @@ exports.getchat =(req, res) => {
     res.status(500).send('Internal server error');
   });
 };
+exports.getAbout =(req,res,next)=>{
+  res.render('about',{
+    pageTitle:'About',
+    path:'/about'
+  });
+}
+exports.donate=(req,res) =>{
+  res.render('donate',{
+    pageTitle:'Donate',
+    path:'/donate'
+  });
+}

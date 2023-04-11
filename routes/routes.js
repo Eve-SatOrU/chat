@@ -12,5 +12,7 @@ router.get('/logout',userController.getLogout);
 router.get('/chat/:id',userController.getchat);
 router.get('/profile/:id',userController.getprofile);
 // router.post('/clear',userController.postclear);
+router.get('/about',userController.getAbout);
+router.get('/donate',userController.donate);
 
 module.exports = router;

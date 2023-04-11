@@ -1,27 +1,6 @@
-//- meta(charset="utf-8")
-//- meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
-//- title Register
-//- link(href="/css/particles.css", rel="stylesheet")
-//- link(href="/css/auth.css", rel="stylesheet")
-//- #tsparticles
-//- main.box
-//-   h2 Register
-//-   form(action='/register' method='post')
-//-     .inputBox
-//-       label(for="userName") Username
-//-       input#userName(type="text", name="userName", placeholder="type your username", required)
-//-     .inputBox
-//-       label(for="userPassword") Password
-//-       input#userPassword(type="password", name="userPassword", placeholder="type your password", required)
-//-     .inputBox
-//-       //- label(for="userConfirmPassword") Confirm Password
-//-       //- input#userConfirmPassword(type="password", name="userPassword", placeholder="confirm your password", required)
-//-     button(type="submit", style="float: left;") Submit
-//-     a.button(href="/login", style="float: left;") login
-//- footer.
 meta(charset="UTF-8")
 meta(name="viewport", content="width=device-width,initial-scale=1")
-title register
+title donate
 link(rel="stylesheet", href="/css/index.css")
 link(rel="preconnect", href="https://fonts.googleapis.com")
 link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
@@ -57,21 +36,11 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
 .account-page
   .container
     .row
+      .col-3
+        img(src="/images/donate.svg", width="100%")
       .col-2
-        img(src="/images/signup.svg", width="100%")
-      .col-2
-        .form-container
-            .form-btn
-            .title
-              span(onclick="register()") Register
-            form.login-form(action="/register", method="post")
-                label(for="userName") userName
-                input(type="text", name="userName", placeholder="type your username", required)#userName
-                label(for="userPassword") userPassword
-                input(type="password", name="userPassword", placeholder="type your password", required)#userPassword
-                button.btn(type="submit") register
-                a(href="/login") 
-                  p Already have an account?
+        p coming soon ...
+    
 // ----------------footer----------
 .footer
   .container
