@@ -17,9 +17,9 @@ exports.getRegister = (req, res, next) => {
   });
 };
   exports.postRegister = async (req, res,next) => {
-    const { userName, userPassword } = req.body;
+    const { userName, userPassword,email } = req.body;
     try {
-      const user = await User.create({ userName, userPassword });
+      const user = await User.create({ userName, userPassword,email });
       res.redirect('/login');
     } catch (error) {
       res.render('register', { error });
@@ -80,5 +80,11 @@ exports.donate=(req,res) =>{
   res.render('donate',{
     pageTitle:'Donate',
     path:'/donate'
+  });
+}
+exports.getlist=(req,res)=>{
+  res.render('list',{
+    pageTitle:'List',
+    path:'/list'
   });
 }

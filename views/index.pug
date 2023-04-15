@@ -1,22 +1,4 @@
-//- meta(charset="utf-8")
-//- meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
-//- title Index
-//- link(href="/css/particles.css", rel="stylesheet")
-//- link(href="/css/auth.css", rel="stylesheet")
-//- #tsparticles
-//- main.box
-//-   h2 Home
-//-   if user
-//-     a.button(href=`/profile/${user.id}`) Profile
-//-     a.button(href="/logout", style="float: right;") logout
-//-     a.button(href=`/chat/${user.id}`) chat
-//-   else 
-//-     a.button(href="/listview", style="float: left;") view list
-//-     a.button(href="/register", style="float: left;") register
-//-     a.button(href="/login", style="float: left;") login
 
-    
-//- footer.
 meta(charset="UTF-8")
 meta(name="viewport", content="width=device-width,initial-scale=1")
 title home
@@ -39,7 +21,7 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
             a(href="/about", class=(path === '/about' ? 'active' : '')) About
           if user
             li.main-header__item
-              a( href="/profile",class=(path === '/profile' ? 'active' : '')) Profile
+              a( href=`/profile/${user.id}`,class=(path === '/profile' ? 'active' : '')) Profile
             li.main-header__item
               a(href=`/chat/${user.id}`) chat
             li.main-header__item
@@ -55,7 +37,7 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
         img(src="images/cart.png", width="30px", height="30px")
     .row
       .col-2
-        h1
+        h1.HI
           | We stay We fix
           br
           | We communicate!

@@ -1,5 +1,9 @@
+//add api google
 // using les sockets with login 
 const express = require('express');
+//add passport to use api
+const passport=require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const http = require('http');
 const socketio = require('socket.io');
 const bodyParser = require('body-parser');
@@ -9,6 +13,7 @@ const User = require('./models/user');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
+//api with google
 
 //socket
 const server = http.createServer(app);

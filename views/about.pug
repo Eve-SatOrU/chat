@@ -1,6 +1,6 @@
 meta(charset="UTF-8")
 meta(name="viewport", content="width=device-width,initial-scale=1")
-title home
+title about
 link(rel="stylesheet", href="css/index.css")
 link(rel="preconnect", href="https://fonts.googleapis.com")
 link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
@@ -20,7 +20,7 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
             a(href="/about", class=(path === '/about' ? 'active' : '')) About
           if user
             li.main-header__item
-              a( href="/profile",class=(path === '/profile' ? 'active' : '')) Profile
+              a( href=`/profile/${user.id}`,class=(path === '/profile' ? 'active' : '')) Profile
             li.main-header__item
               a(href=`/chat/${user.id}`) chat
             li.main-header__item

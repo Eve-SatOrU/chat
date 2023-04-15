@@ -486,7 +486,7 @@ input:focus{
     max-width: 300px;
     padding: 0 20px;
     position: absolute;
-    top: 130px;
+    top: 70px;
     transition: trasform 1s;
 
 }
@@ -572,7 +572,7 @@ form a{
 }
 /*------------contact-------*/
 form{
-    width: 640px;
+    /* width: 640px; */
     margin: 0px auto;
     max-width: 97%;
     border-radius: 4px;
@@ -668,3 +668,20 @@ form{
   form .half .item input:focus, form .full textarea:focus, form .action input[type="reset"]:hover, form .icons a:hover{
     background: rgba(255,255,255,0.075);
   }
+
+.box {
+    background-color: #fbf1f2;
+    border:  #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: start;
+    box-shadow: 2px 2px 2px rgba(35, 31, 31, 0.1);
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+.HI{
+    font-family: 'Comic Sans MS';  
+}
