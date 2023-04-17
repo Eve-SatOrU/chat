@@ -26,8 +26,6 @@ GOOGLE_CLIENT_SECRET (the Google Client Secret for authentication)
 1- Log in using your Google account or create a new account
 2- Select a user to chat with
 3- Send and receive messages in real time
-# License
-Distributed under the MIT License. See LICENSE for more information.
 
 Contact
 Name -Eve-SatOrU
