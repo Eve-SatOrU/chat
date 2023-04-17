@@ -1,4 +1,4 @@
-# chatio
+# chat
 "https://files.fm/u/vfmdezcpm"
 # Project Name
 This project is a simple chat application that allows users to log in and chat with each other in real time.
