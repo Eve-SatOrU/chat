@@ -47,6 +47,9 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
           input#message-input(type="text")
           //- button#send-button Send
           button.btn#send-button(type="submit") send
+        form(method="POST", enctype="multipart/form-data",action="/upload")
+          input(type="file", name="myFile")
+          button.btn(type="submit") Upload
 script(src="/socket.io/socket.io.js")
 script.
   const socket = io();

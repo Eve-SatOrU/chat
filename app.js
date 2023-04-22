@@ -10,10 +10,12 @@ const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 const session = require('express-session');
 const User = require('./models/user');
+const multer =require('multer');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 //api with google
+//using multer:
 
 //socket
 const server = http.createServer(app);

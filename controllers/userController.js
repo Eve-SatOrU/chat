@@ -1,5 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const multer =require('multer');
+const upload =multer({dest:'uploads/'});
 const session = require('express-session');
 exports.getIndex = async(req, res, next) => {
     const user = req.session.user;
@@ -88,3 +90,20 @@ exports.getlist=(req,res)=>{
     path:'/list'
   });
 }
+// app.post('/upload', upload.single('myFile'), (req, res) => {
+//   // req.file contains information about the uploaded file
+//   console.log(req.file);
+//   res.send('File uploaded successfully');
+// });
+exports.postupload = (req, res, next) => {
+  upload.single('myFile')(req, res, function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: err.message
+      });
+    }
+
+    console.log(req.file);
+    res.send('File uploaded successfully');
+  });
+};
