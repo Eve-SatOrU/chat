@@ -95,15 +95,15 @@ exports.getlist=(req,res)=>{
 //   console.log(req.file);
 //   res.send('File uploaded successfully');
 // });
-exports.postupload = (req, res, next) => {
-  upload.single('myFile')(req, res, function (err) {
-    if (err) {
-      return res.status(400).send({
-        message: err.message
-      });
-    }
+// exports.postupload = (req, res, next) => {
+//   upload.single('myFile')(req, res, function (err) {
+//     if (err) {
+//       return res.status(400).send({
+//         message: err.message
+//       });
+//     }
 
-    console.log(req.file);
-    res.send('File uploaded successfully');
-  });
-};
+//     console.log(req.file);
+//     res.send('File uploaded successfully');
+//   });
+// };

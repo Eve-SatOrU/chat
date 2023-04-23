@@ -15,5 +15,5 @@ router.get('/profile/:id',userController.getprofile);
 router.get('/about',userController.getAbout);
 router.get('/donate',userController.donate);
 router.get('/list',userController.getlist);
-router.post('/upload',userController.postupload);
+// router.post('/upload',userController.postupload);
 module.exports = router;

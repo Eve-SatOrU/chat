@@ -43,39 +43,50 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
           // message box for displaying chat messages
         div.box#messages
 
-        form(onsubmit="return false;")
+        form#chat-form
           input#message-input(type="text")
-          //- button#send-button Send
+          input#file-input(type="file")
           button.btn#send-button(type="submit") send
-        form(method="POST", enctype="multipart/form-data",action="/upload")
-          input(type="file", name="myFile")
-          button.btn(type="submit") Upload
-script(src="/socket.io/socket.io.js")
-script.
-  const socket = io();
 
-  // listen for incoming chat messages
-  socket.on('message', (msg) => {
-    const messageElem = document.createElement('li');
-    messageElem.textContent = msg;
+      script(src="/socket.io/socket.io.js")
+      script.
+        const socket = io();
 
-    const messagesElem = document.querySelector('#messages');
-    messagesElem.appendChild(messageElem);
-  });
+        // listen for incoming chat messages
+        socket.on('message', (msg) => {
+          const messageElem = document.createElement('li');
+          messageElem.textContent = msg;
 
-  // send chat messages
-  const messageInput = document.querySelector('#message-input');
-  const sendButton = document.querySelector('#send-button');
+          const messagesElem = document.querySelector('#messages');
+          messagesElem.appendChild(messageElem);
+        });
 
-  sendButton.addEventListener('click', (event) => {
-    const message = messageInput.value.trim();
+        // listen for incoming file uploads
+        socket.on('file', (data) => {
+          const fileElem = document.createElement('a');
+          fileElem.href = data.fileUrl;
+          fileElem.textContent = data.fileName;
 
-    if (message) {
-      socket.emit('message', message);
-      messageInput.value = '';
-    }
-  });
-    
+          const messagesElem = document.querySelector('#messages');
+          messagesElem.appendChild(fileElem);
+        });
+
+        // send chat messages and files
+        const chatForm = document.querySelector('#chat-form');
+const messageInput = document.querySelector('#message-input');
+const sendButton = document.querySelector('#send-button');
+const fileInput = document.querySelector('#file-input'); // added file input
+sendButton.addEventListener('click', (event) => {
+  const message = messageInput.value.trim();
+  const file = fileInput.files[0]; // added file variable
+
+  if (message || file) {
+    socket.emit('message', message, file); // pass file to emit function
+    messageInput.value = '';
+    fileInput.value = ''; // clear file input after sending
+  }
+});
+
 // ----------------footer----------
 .footer
   .container
