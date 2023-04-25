@@ -39,40 +39,85 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
       .col-3
         h2 Chat with #{user.userName}
         img(src="/images/about1.svg", width="100%")
-        //- #messages
-          // message box for displaying chat messages
+        #messages 
         div.box#messages
-
-        form(onsubmit="return false;")
+        form#file-form(action="/send-file", method="POST", enctype="multipart/form-data")
           input#message-input(type="text")
-          //- button#send-button Send
+          input#file-input(type="file", name="file")
           button.btn#send-button(type="submit") send
+
 script(src="/socket.io/socket.io.js")
 script.
   const socket = io();
 
-  // listen for incoming chat messages
-  socket.on('message', (msg) => {
-    const messageElem = document.createElement('li');
-    messageElem.textContent = msg;
-
-    const messagesElem = document.querySelector('#messages');
-    messagesElem.appendChild(messageElem);
-  });
-
   // send chat messages
   const messageInput = document.querySelector('#message-input');
   const sendButton = document.querySelector('#send-button');
-
   sendButton.addEventListener('click', (event) => {
     const message = messageInput.value.trim();
-
-    if (message) {
-      socket.emit('message', message);
-      messageInput.value = '';
-    }
+    socket.emit('message', message);
+    messageInput.value = '';
   });
+
+  // handle file upload
+  const fileForm = document.getElementById('file-form');
+  fileForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const message = messageInput.value.trim();
+    const fileInput = document.getElementById('file-input');
+    const file = fileInput.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      fetch(fileForm.action, {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        socket.emit('file', { message, fileUrl: data.filename });
+        console.log(data);
+      })
+      .catch(error => console.log(error));
+    } else if (message) {
+      socket.emit('message', message);
+    }
+    messageInput.value = '';
+    fileInput.value = '';
+  });
+
+  // listen for incoming chat messages
+  socket.on('message', (data) => {
+    const messageElem = document.createElement('li');
+    messageElem.textContent = data;
+    //- messageElem.classList.add('chat-message'); // add a class to the message element
+ 
+
+    const messagesElem = document.querySelector('#messages');
+    messagesElem.appendChild(messageElem);
     
+  });
+  // listen for incoming file uploads
+  socket.on('file', (data) => {
+    const messageElem = document.createElement('li');
+    messageElem.textContent = data.message;
+
+    const fileElem = document.createElement('a');
+    fileElem.textContent = data.fileUrl;
+    fileElem.href = '/uploads/' + data.fileUrl;
+    fileElem.download = data.fileUrl;
+
+    messageElem.appendChild(fileElem);
+
+    //- const messagesElem = document.querySelector('#messages');
+    //- messagesElem.appendChild(messageElem);
+  });
+
 // ----------------footer----------
 .footer
   .container

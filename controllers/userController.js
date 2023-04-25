@@ -88,3 +88,4 @@ exports.getlist=(req,res)=>{
     path:'/list'
   });
 }
+

@@ -685,3 +685,18 @@ form{
 .HI{
     font-family: 'Comic Sans MS';  
 }
+
+
+/* .chat-message {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+   */
+#messages{
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}

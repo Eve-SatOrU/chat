@@ -9,11 +9,32 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 const session = require('express-session');
+const multer = require('multer');
 const User = require('./models/user');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 //api with google
+//multer 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
+});
+ 
+const upload = multer({ storage: storage });
+app.post('/send-file', upload.single('file'), (req, res) => {
+  const message = req.body.message;
+  const fileUrl = req.file.filename;
+
+  // broadcast the message and file URL to all clients
+  io.emit('file', { message: message, fileUrl: fileUrl });
+
+  res.redirect('/');
+});
 
 //socket
 const server = http.createServer(app);
@@ -43,7 +64,7 @@ io.on('connection', (socket) => {
   socket.on('message', (msg) => {
     console.log('message: ' + msg);
 
-    socket.broadcast.emit('message', msg);
+  socket.broadcast.emit('message', msg);
   });
 });
 
@@ -53,3 +74,5 @@ sequelize.sync().then(() => {
     console.log('Server started on port 3000');
   });
 }).catch(error => console.log(error));
+
+
