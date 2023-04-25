@@ -95,7 +95,7 @@ script.
   socket.on('message', (data) => {
     const messageElem = document.createElement('li');
     messageElem.textContent = data;
-    //- messageElem.classList.add('chat-message'); // add a class to the message element
+    messageElem.classList.add('chat-message'); // add a class to the message element
  
 
     const messagesElem = document.querySelector('#messages');
@@ -114,8 +114,8 @@ script.
 
     messageElem.appendChild(fileElem);
 
-    //- const messagesElem = document.querySelector('#messages');
-    //- messagesElem.appendChild(messageElem);
+    const messagesElem = document.querySelector('#messages');
+    messagesElem.appendChild(messageElem);
   });
 
 // ----------------footer----------
