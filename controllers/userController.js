@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const Message = require('../models/message');
 exports.getIndex = async(req, res, next) => {
     const user = req.session.user;
     res.render('index', { user });
@@ -18,6 +19,28 @@ exports.getRegister = (req, res, next) => {
 };
   exports.postRegister = async (req, res,next) => {
     const { userName, userPassword,email } = req.body;
+    const errors =[];
+      // Check if user name is empty or contains invalid characters
+  if (!userName || !/^[a-zA-Z0-9]+$/.test(userName)) {
+    errors.push('User name must only contain letters and numbers');
+    console.log(errors);
+  }
+  // Check if password is empty or contains invalid characters
+  if (!userPassword || !/^[a-zA-Z0-9]+$/.test(userPassword)) {
+    errors.push('Password must only contain letters and numbers');
+    console.log(errors);
+  }
+
+  // Check if email is valid
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.push('Email is not valid');
+    console.log(errors);
+  }
+
+  // If there are any errors, render the register page with the errors
+  if (errors.length > 0) {
+    return res.render('register', { errors });
+  }
     try {
       const user = await User.create({ userName, userPassword,email });
       res.redirect('/login');
@@ -89,3 +112,34 @@ exports.getlist=(req,res)=>{
   });
 }
 
+
+// //using crypto 
+// const secretKey = 'mySecretKey';
+
+// function encryptMessage(message) {
+//   const cipher = crypto.createCipher('aes-256-cbc', secretKey);
+//   let encrypted = cipher.update(message, 'utf8', 'hex');
+//   encrypted += cipher.final('hex');
+//   return encrypted;
+// }
+
+// function decryptMessage(encryptedMessage) {
+//   const decipher = crypto.createDecipher('aes-256-cbc', secretKey);
+//   let decrypted = decipher.update(encryptedMessage, 'hex', 'utf8');
+//   decrypted += decipher.final('utf8');
+//   return decrypted;
+// }
+// const encryptedMessage = encryptMessage('Hello, world!');
+// console.log('Encrypted message:', encryptedMessage);
+
+// const decryptedMessage = decryptMessage(encryptedMessage);
+// console.log('Decrypted message:', decryptedMessage);
+
+
+// exports.postMessage = async (req, res, next) => {
+//   const encryptedMessage = encryptMessage(req.body.message);
+// const message = await Message.create({
+//   content: encryptedMessage,
+//   sender: req.session.userId,
+// });
+// };
