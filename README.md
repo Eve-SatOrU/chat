@@ -28,6 +28,4 @@ To get a local copy up and running, follow these steps:
 # Author
 **meriem toumi**
 
-Project Link: https://github.com/Eve-SatOrU/chat
-
 
