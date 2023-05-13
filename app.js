@@ -11,10 +11,15 @@ const sequelize = require('./util/database');
 const session = require('express-session');
 const multer = require('multer');
 const User = require('./models/user');
+//proxy with express
+const proxy = require('express-proxy');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 //api with google
+//models
+const Message = require('./models/message');
+const user =require('./models/user');
 //multer 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -58,15 +63,41 @@ const userController = require('./controllers/userController');
 const errorController = require('./controllers/error.js');
 app.use(errorController.get404);
  // app.use(express.json());
-io.on('connection', (socket) => {
+ //proxy 
+app.use('/chat', proxy('http://localhost:3000'));
+// Define a function to check if a user is blacklisted
+const isBlacklisted = (user) => {
+  const blacklist = ['hacker', 'blacklistedUser1', 'blacklistedUser2'];
+  return blacklist.includes(user);
+};
+ io.on('connection', (socket) => {
   console.log('a user connected');
 
-  socket.on('message', (msg) => {
+  socket.on('message', async (msg) => {
     console.log('message: ' + msg);
 
-  socket.broadcast.emit('message', msg);
+    // Create a new Message and store it in the database
+    const message = await Message.create({
+      content: msg,
+      sender: 'eve', // Replace this with the actual sender's name
+      encrypted: true // Set this to true to encrypt the message
+    });
+
+    // Emit the message content to all clients
+    io.emit('message', msg);
   });
 });
+
+// Define the middleware to check if a user is blacklisted before sending a message
+const checkBlacklist = (req, res, next) => {
+  const { sender } = req.body;
+  if (isBlacklisted(sender)) {
+    res.status(403).send('You are not authorized to send messages');
+  } else {
+    next();
+  }
+};
+
 
 sequelize.sync().then(() => {
  // sync({ force: true }).

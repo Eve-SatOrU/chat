@@ -42,9 +42,13 @@ link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fortawesome/fontaweso
         #messages 
         div.box#messages
         form#file-form(action="/send-file", method="POST", enctype="multipart/form-data")
-          input#message-input(type="text")
           input#file-input(type="file", name="file")
-          button.btn#send-button(type="submit") send
+          if isBlacklisted
+            input(type="text" , name="message" , placeholder="You are not authorized to send messages" , disabled=isBlacklisted)
+          else
+            input#message-input(type="text" , name="message" , placeholder="Type your message here")
+            button.btn#send-button(type="submit") send
+
 
 script(src="/socket.io/socket.io.js")
 script.
@@ -85,7 +89,7 @@ script.
       })
       .catch(error => console.log(error));
     } else if (message) {
-      socket.emit('message', message);
+      socket.emit('message', JSON.stringify({ text: message }));
     }
     messageInput.value = '';
     fileInput.value = '';
@@ -102,16 +106,30 @@ script.
     messagesElem.appendChild(messageElem);
     
   });
-  // listen for incoming file uploads
+  //- socket.on('message', (data) => {
+  //-   console.log('Received message:', data);
+  //-   const messageElem = document.createElement('li');
+  //-   messageElem.textContent = data;
+  //-   messageElem.classList.add('chat-message');
+
+  //-   const messagesElem = document.querySelector('#messages');
+  //-   messagesElem.appendChild(messageElem);
+  //- });
+
+
+
   socket.on('file', (data) => {
     const messageElem = document.createElement('li');
-    messageElem.textContent = data.message;
+    messageElem.classList.add('chat-message');
+
+    const messageText = document.createElement('span');
+    messageText.textContent = data.message;
+    messageElem.appendChild(messageText);
 
     const fileElem = document.createElement('a');
     fileElem.textContent = data.fileUrl;
     fileElem.href = '/uploads/' + data.fileUrl;
     fileElem.download = data.fileUrl;
-
     messageElem.appendChild(fileElem);
 
     const messagesElem = document.querySelector('#messages');
